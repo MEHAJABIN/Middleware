@@ -34,9 +34,15 @@ namespace Middleware
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.Use(async (context, next) =>
+            /*app.Run(async context =>*/
+            {
+                await next.Invoke();
+              /*  await context.Response.WriteAsync("My World");*/
+            });
             app.Run(async context =>
             {
-                await context.Response.WriteAsync("My World");
+                await context.Response.WriteAsync("Hello from 2nd delegate.");
             });
             if (env.IsDevelopment())
             {
